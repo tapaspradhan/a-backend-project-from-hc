@@ -11,10 +11,10 @@ const userSchema= new Schema({
         trim: true,
         index: true
     },
-    eamil:{
+    email:{
         type:String,
         required: true,
-        unique: true,
+        unique:[true,"Anda lele"],
         lowercase: true,
         trim: true
     },
@@ -47,8 +47,9 @@ const userSchema= new Schema({
 
 },{timestamps:true})
 
-userSchema.pre("save", async function(next){
-    if(!this.password.isModified("password")) return next()
+userSchema.pre("save", async function (next){
+    if(!this.isModified("password")) return next();
+    
     this.password= await bcript.hash(this.password,10)
     next()
 })
@@ -60,7 +61,7 @@ userSchema.methods.generateAccessToken=function(){
     return jwt.sign(
         {
             _id:this._id,
-            eamil: this.eamil,
+            email: this.email,
             username:this.username,
             fullName: this.fullName
         },
@@ -83,3 +84,4 @@ userSchema.methods.generateRefreshToken=function(){
 }
 
 export const User=mongoose.model("User",userSchema)
+// export default User
