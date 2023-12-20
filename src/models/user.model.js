@@ -14,7 +14,7 @@ const userSchema= new Schema({
     email:{
         type:String,
         required: true,
-        unique:[true,"Anda lele"],
+        unique:[true,"Enter your email"],
         lowercase: true,
         trim: true
     },
